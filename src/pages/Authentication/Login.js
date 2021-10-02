@@ -8,6 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/styles";
 import { useMoralis } from "react-moralis";
 import { navigate } from "@reach/router";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles({
 	rootContainer: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 const Login = () => {
 	const classes = useStyles();
 	const { authenticate, login, isAuthenticating } = useMoralis();
+	const { enqueueSnackbar } = useSnackbar();
 	const initialLoadingButtonValue = {
 		email: false,
 		metamask: false,
