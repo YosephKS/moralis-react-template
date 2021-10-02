@@ -41,12 +41,17 @@ const SignUp = () => {
 	});
 
 	const onSignUp = async ({ username, password, email }) => {
-		try {
-			await signup(username, password, email);
-		} catch (e) {
-			console.error(e);
-			// throw error snackbar
-		}
+		await signup(
+			username,
+			password,
+			email,
+			{},
+			{
+				onError: () => {
+					enqueueSnackbar("Sign Up Failed.", { variant: "error" });
+				},
+			},
+		);
 	};
 
 	return (
