@@ -7,6 +7,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/styles";
+import { navigate } from "@reach/router";
 
 const CardList = [
 	{
@@ -19,12 +20,12 @@ const CardList = [
 		title: "Documentation",
 		description:
 			'Think "Firebase of crypto". Moralis provides managed backend for blockchain projects. Automatically syncing the balances of your users into the database, allowing you to set up on-chain alerts, watch smart contract events, build indexes, and so much more. All features are accessed through an easy-to-use SDK. All features Moralis provides are cross-chain by default.',
+		link: "https://docs.moralis.io/",
 	},
 	{
 		title: "React Moralis",
 		description: "Hooks and components to use Moralis in a React app",
-		link:
-			"https://github.com/MoralisWeb3/react-moralis#update-the-user-with-setuserdata",
+		link: "https://github.com/MoralisWeb3/react-moralis#update-the-user-with-setuserdata",
 	},
 	{
 		title: "Author (GitHub)",
@@ -60,7 +61,7 @@ const Dashboard = (props) => {
 			</Typography>
 			<Grid container spacing={2} className={classes.cardContainer}>
 				{CardList.map((card) => {
-					const { title, description } = card;
+					const { title, description, link } = card;
 					return (
 						<Grid item xs={12} md={6}>
 							<Card className={classes.root} elevation={3}>
@@ -80,7 +81,11 @@ const Dashboard = (props) => {
 									</CardContent>
 								</CardActionArea>
 								<CardActions>
-									<Button size="small" color="primary">
+									<Button
+										size="small"
+										color="primary"
+										onClick={() => navigate(link)}
+									>
 										Learn More
 									</Button>
 								</CardActions>

@@ -11,9 +11,11 @@ import { navigate } from "@reach/router";
 const useStyles = makeStyles({
 	rootContainer: {
 		height: "100vh",
-		paddingTop: "5vh",
 		paddingLeft: "5%",
 		paddingRight: "5%",
+	},
+	contentContainer: {
+		maxWidth: "390px",
 	},
 	titleContainer: {
 		marginBottom: "1rem",
@@ -45,12 +47,12 @@ const Login = () => {
 	const onNonCryptoLogin = async ({ username, password }) => {
 		const res = await login(username, password);
 
-		// If no existing user found, create new one
+		// If no existing user found, throw error snackbar
 		if (!res) {
 			// throw error snackbar
 			console.error("No user found");
 		} else {
-			navigate("/");
+			navigate("/dashboard");
 		}
 	};
 
@@ -63,7 +65,7 @@ const Login = () => {
 			spacing={2}
 			className={classes.rootContainer}
 		>
-			<Grid item xs={12}>
+			<Grid item className={classes.contentContainer}>
 				<Grid
 					container
 					justifyContent="center"
@@ -119,7 +121,7 @@ const Login = () => {
 							</Grid>
 							<Grid item xs={6}>
 								<Typography align="right">
-									<Link href="/signup">Have no account yet?</Link>
+									<Link href="/signup">No account?</Link>
 								</Typography>
 							</Grid>
 						</Grid>

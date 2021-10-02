@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
-import MenuIcon from "@material-ui/icons/Menu";
 import Dashboard from "./Dashboard";
 
 const useStyles = makeStyles(() => ({
@@ -31,7 +30,16 @@ const Index = () => {
 	const { user, logout, isAuthenticated } = useMoralis();
 
 	const onLogout = async () => {
-		await logout();
+		try {
+			const res = await logout();
+			console.log(res);
+			if (!res) {
+			} else {
+				navigate("/login");
+			}
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
 	useEffect(() => {
@@ -46,14 +54,6 @@ const Index = () => {
 		<>
 			<AppBar position="sticky">
 				<Toolbar>
-					<IconButton
-						edge="start"
-						className={classes.menuButton}
-						color="inherit"
-						aria-label="menu"
-					>
-						<MenuIcon />
-					</IconButton>
 					<Typography variant="h6" className={classes.title}>
 						Dashboard
 					</Typography>

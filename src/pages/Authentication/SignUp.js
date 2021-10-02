@@ -10,9 +10,11 @@ import Link from "@material-ui/core/Link";
 const useStyles = makeStyles({
 	rootContainer: {
 		height: "100vh",
-		paddingTop: "10vh",
 		paddingLeft: "5%",
 		paddingRight: "5%",
+	},
+	contentContainer: {
+		maxWidth: "390px",
 	},
 	titleContainer: {
 		marginBottom: "1rem",
@@ -56,7 +58,7 @@ const SignUp = () => {
 			spacing={2}
 			className={classes.rootContainer}
 		>
-			<Grid item xs={12}>
+			<Grid item className={classes.contentContainer}>
 				<Grid
 					container
 					justifyContent="center"
