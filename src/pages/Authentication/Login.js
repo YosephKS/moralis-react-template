@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/styles";
 import { useMoralis } from "react-moralis";
 
@@ -33,26 +34,49 @@ const useStyles = makeStyles({
 
 const Login = () => {
 	const classes = useStyles();
-	const { authenticate, login } = useMoralis();
+	const { authenticate, login, isAuthenticating } = useMoralis();
+	const initialLoadingButtonValue = {
+		email: false,
+		metamask: false,
+		walletConnect: false,
+	};
+	const [loadingButton, setLoadingButton] = useState(initialLoadingButtonValue);
 	const [values, setValues] = useState({
 		username: "",
 		password: "",
 	});
 
-	const onCryptoLogin = async (options) => {
+	const onCryptoLogin = async (type) => {
+		setLoadingButton({ ...loadingButton, [type]: true });
+		const options = () => {
+			switch (type) {
+				case "metamask":
+					return {};
+				case "walletConnect":
+					return { provider: "walletconnect" };
+				case "elrond":
+					return { type: "erd" };
+				default:
+					return {};
+			}
+		};
+
 		await authenticate({
 			...options,
 			signingMessage: "React Moralis Crypto Login",
 			onError: () => {
 				enqueueSnackbar("Crypto Login Failed.", { variant: "error" });
+				setLoadingButton(initialLoadingButtonValue);
 			},
 		});
 	};
 
 	const onEmailLogin = async ({ username, password }) => {
+		setLoadingButton({ ...loadingButton, email: true });
 		await login(username, password, {
 			onError: () => {
 				enqueueSnackbar("Email Login Failed.", { variant: "error" });
+				setLoadingButton(initialLoadingButtonValue);
 			},
 		});
 	};
@@ -94,6 +118,7 @@ const Login = () => {
 							required
 							fullWidth
 							className={classes.textField}
+							disabled={isAuthenticating}
 							onChange={(e) =>
 								setValues({ ...values, username: e.target.value })
 							}
@@ -106,6 +131,7 @@ const Login = () => {
 							value={values.password}
 							fullWidth
 							className={classes.textField}
+							disabled={isAuthenticating}
 							onChange={(e) =>
 								setValues({ ...values, password: e.target.value })
 							}
@@ -130,28 +156,39 @@ const Login = () => {
 							variant="outlined"
 							fullWidth
 							type="submit"
+							disabled={isAuthenticating}
 							className={classes.button}
 						>
-							Login
+							{loadingButton.email ? <CircularProgress size={30} /> : "Login"}
 						</Button>
 					</form>
 					<Button
 						variant="contained"
-						onClick={() => onCryptoLogin({})}
+						onClick={() => onCryptoLogin("metamask")}
 						fullWidth
 						color="secondary"
+						disabled={isAuthenticating}
 						className={classes.button}
 					>
-						Login with Metamask
+						{loadingButton.metamask ? (
+							<CircularProgress size={30} />
+						) : (
+							"Login with Metamask"
+						)}
 					</Button>
 					<Button
 						variant="contained"
-						onClick={() => onCryptoLogin({ provider: "walletconnect" })}
+						onClick={() => onCryptoLogin("walletConnect")}
 						fullWidth
 						color="primary"
+						disabled={isAuthenticating}
 						className={classes.button}
 					>
-						Login with WalletConnect
+						{loadingButton.walletConnect ? (
+							<CircularProgress size={30} />
+						) : (
+							"Login with WalletConnect"
+						)}
 					</Button>
 				</Grid>
 			</Grid>
