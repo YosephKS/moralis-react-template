@@ -31,12 +31,7 @@ const Index = () => {
 
 	const onLogout = async () => {
 		try {
-			const res = await logout();
-			console.log(res);
-			if (!res) {
-			} else {
-				navigate("/login");
-			}
+			await logout();
 		} catch (e) {
 			console.error(e);
 		}
@@ -45,7 +40,7 @@ const Index = () => {
 	useEffect(() => {
 		if (!isAuthenticated) {
 			navigate("/login");
-		} else if (isAuthenticated && location.pathname === "/") {
+		} else if (isAuthenticated) {
 			navigate("/dashboard");
 		}
 	}, [isAuthenticated, location.pathname]);

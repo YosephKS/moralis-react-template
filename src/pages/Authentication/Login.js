@@ -46,14 +46,6 @@ const Login = () => {
 
 	const onNonCryptoLogin = async ({ username, password }) => {
 		const res = await login(username, password);
-
-		// If no existing user found, throw error snackbar
-		if (!res) {
-			// throw error snackbar
-			console.error("No user found");
-		} else {
-			navigate("/dashboard");
-		}
 	};
 
 	return (

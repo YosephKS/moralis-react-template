@@ -12,7 +12,7 @@ const Index = () => {
 	useEffect(() => {
 		if (isAuthenticated) {
 			navigate("/dashboard");
-		} else if (!isAuthenticated && location.pathname === "/") {
+		} else if (!isAuthenticated) {
 			navigate("/login");
 		}
 	}, [isAuthenticated, location.pathname]);
