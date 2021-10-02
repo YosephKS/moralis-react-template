@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -7,6 +7,7 @@ import Link from "@material-ui/core/Link";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/styles";
 import { useMoralis } from "react-moralis";
+import { navigate } from "@reach/router";
 
 const useStyles = makeStyles({
 	rootContainer: {
@@ -64,6 +65,9 @@ const Login = () => {
 		await authenticate({
 			...options,
 			signingMessage: "React Moralis Crypto Login",
+			onSuccess: () => {
+				navigate("/dashboard");
+			},
 			onError: () => {
 				enqueueSnackbar("Crypto Login Failed.", { variant: "error" });
 				setLoadingButton(initialLoadingButtonValue);
@@ -74,6 +78,9 @@ const Login = () => {
 	const onEmailLogin = async ({ username, password }) => {
 		setLoadingButton({ ...loadingButton, email: true });
 		await login(username, password, {
+			onSuccess: () => {
+				navigate("/dashboard");
+			},
 			onError: () => {
 				enqueueSnackbar("Email Login Failed.", { variant: "error" });
 				setLoadingButton(initialLoadingButtonValue);

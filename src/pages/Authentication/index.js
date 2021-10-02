@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
 import { Router, navigate, useLocation } from "@reach/router";
-import { useMoralis } from "react-moralis";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 
 const Index = () => {
-	const { isAuthenticated } = useMoralis();
 	const location = useLocation();
 
 	useEffect(() => {
-		if (isAuthenticated) {
-			navigate("/dashboard");
-		} else if (!isAuthenticated) {
+		if (location.pathname === "/") {
 			navigate("/login");
 		}
-	}, [isAuthenticated, location.pathname]);
+	}, [location.pathname]);
 
 	return (
 		<Router>

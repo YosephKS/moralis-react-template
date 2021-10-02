@@ -25,26 +25,25 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Index = () => {
-	const location = useLocation();
 	const classes = useStyles();
 	const { enqueueSnackbar } = useSnackbar();
-	const { user, logout, isAuthenticated } = useMoralis();
+	const { user, logout } = useMoralis();
+	const location = useLocation();
 
 	const onLogout = async () => {
 		try {
 			await logout();
+			navigate("/login");
 		} catch (e) {
 			enqueueSnackbar("Logout Failed.", { variant: "error" });
 		}
 	};
 
 	useEffect(() => {
-		if (!isAuthenticated) {
-			navigate("/login");
-		} else if (isAuthenticated) {
+		if (location.pathname === "/") {
 			navigate("/dashboard");
 		}
-	}, [isAuthenticated, location.pathname]);
+	}, [location.pathname]);
 
 	return (
 		<>

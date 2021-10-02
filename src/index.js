@@ -4,7 +4,6 @@ import { MoralisProvider } from "react-moralis";
 import { SnackbarProvider } from "notistack";
 import App from "./App";
 
-const rootElement = document.getElementById("root");
 ReactDOM.render(
 	<StrictMode>
 		<MoralisProvider
@@ -16,5 +15,5 @@ ReactDOM.render(
 			</SnackbarProvider>
 		</MoralisProvider>
 	</StrictMode>,
-	rootElement,
+	document.getElementById("root"),
 );
