@@ -6,7 +6,6 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/styles";
 import { useMoralis } from "react-moralis";
-import { navigate } from "@reach/router";
 
 const useStyles = makeStyles({
 	rootContainer: {
@@ -40,12 +39,22 @@ const Login = () => {
 		password: "",
 	});
 
-	const onLogin = async () => {
-		await authenticate();
+	const onCryptoLogin = async (options) => {
+		await authenticate({
+			...options,
+			signingMessage: "React Moralis Crypto Login",
+			onError: () => {
+				enqueueSnackbar("Crypto Login Failed.", { variant: "error" });
+			},
+		});
 	};
 
-	const onNonCryptoLogin = async ({ username, password }) => {
-		const res = await login(username, password);
+	const onEmailLogin = async ({ username, password }) => {
+		await login(username, password, {
+			onError: () => {
+				enqueueSnackbar("Email Login Failed.", { variant: "error" });
+			},
+		});
 	};
 
 	return (
@@ -75,7 +84,7 @@ const Login = () => {
 					<form
 						onSubmit={async (e) => {
 							e.preventDefault();
-							await onNonCryptoLogin(values);
+							await onEmailLogin(values);
 						}}
 					>
 						<TextField
@@ -128,7 +137,7 @@ const Login = () => {
 					</form>
 					<Button
 						variant="contained"
-						onClick={onLogin}
+						onClick={() => onCryptoLogin({})}
 						fullWidth
 						color="secondary"
 						className={classes.button}
@@ -137,7 +146,7 @@ const Login = () => {
 					</Button>
 					<Button
 						variant="contained"
-						onClick={onLogin}
+						onClick={() => onCryptoLogin({ provider: "walletconnect" })}
 						fullWidth
 						color="primary"
 						className={classes.button}

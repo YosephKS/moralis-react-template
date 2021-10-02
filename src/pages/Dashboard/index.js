@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useMoralis } from "react-moralis";
+import { useSnackbar } from "notistack";
 import { Router, navigate, useLocation } from "@reach/router";
 import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/styles";
@@ -27,13 +27,14 @@ const useStyles = makeStyles(() => ({
 const Index = () => {
 	const location = useLocation();
 	const classes = useStyles();
+	const { enqueueSnackbar } = useSnackbar();
 	const { user, logout, isAuthenticated } = useMoralis();
 
 	const onLogout = async () => {
 		try {
 			await logout();
 		} catch (e) {
-			console.error(e);
+			enqueueSnackbar("Logout Failed.", { variant: "error" });
 		}
 	};
 
