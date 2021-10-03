@@ -10,7 +10,10 @@ ReactDOM.render(
 			appId={process.env.REACT_APP_MORALIS_APP_ID}
 			serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
 		>
-			<SnackbarProvider maxSnack={3}>
+			<SnackbarProvider
+				maxSnack={3}
+				anchorOrigin={{ horizontal: "center", vertical: "top" }}
+			>
 				<App />
 			</SnackbarProvider>
 		</MoralisProvider>
