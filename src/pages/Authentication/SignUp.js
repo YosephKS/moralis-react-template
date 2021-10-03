@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	rootContainer: {
 		height: "100vh",
 		paddingLeft: "5%",
@@ -18,19 +18,19 @@ const useStyles = makeStyles({
 		maxWidth: "390px",
 	},
 	titleContainer: {
-		marginBottom: "1rem",
+		marginBottom: theme.spacing(2),
 	},
 	authorizationContainer: {
-		marginBottom: "1rem",
+		marginBottom: theme.spacing(2),
 	},
 	textField: {
-		marginBottom: "1rem",
+		marginBottom: theme.spacing(2),
 	},
 	button: {
-		marginBottom: "1rem",
+		marginBottom: theme.spacing(2),
 		height: "50px",
 	},
-});
+}));
 
 const SignUp = () => {
 	const classes = useStyles();

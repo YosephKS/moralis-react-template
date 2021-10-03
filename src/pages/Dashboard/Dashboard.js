@@ -11,14 +11,14 @@ import { makeStyles } from "@material-ui/styles";
 import { navigate } from "@reach/router";
 import CardList from "../../list/card.json";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "100%",
 	},
 	cardContainer: {
-		marginTop: "1rem",
+		marginTop: theme.spacing(3),
 	},
-});
+}));
 
 const Dashboard = (props) => {
 	const { user } = props;
