@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMoralis } from "react-moralis";
+import { useSnackbar } from "notistack";
 import { makeStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -34,6 +35,7 @@ const useStyles = makeStyles({
 const SignUp = () => {
 	const classes = useStyles();
 	const { signup } = useMoralis();
+	const { enqueueSnackbar } = useSnackbar();
 	const [values, setValues] = useState({
 		username: "",
 		password: "",

@@ -49,6 +49,11 @@ const Login = () => {
 		password: "",
 	});
 
+	/**
+	 * @description Authenticating User with Crypto Wallet
+	 *
+	 * @param {String} type - Crypto Login Option (e.g. Metamask, WalletConnect, or Elrond)
+	 */
 	const onCryptoLogin = async (type) => {
 		setLoadingButton({ ...loadingButton, [type]: true });
 		const options = () => {
@@ -65,7 +70,7 @@ const Login = () => {
 		};
 
 		await authenticate({
-			...options,
+			...options(),
 			signingMessage: "React Moralis Crypto Login",
 			onSuccess: () => {
 				navigate("/dashboard");
@@ -77,6 +82,17 @@ const Login = () => {
 		});
 	};
 
+	/**
+	 * @description Login User with traditional email and password
+	 * @example
+	 * const res = await onEmailLogin({
+	 * 	username: "xxx",
+	 * 	password: "xxx"
+	 * });
+	 *
+	 * @param {String} username = Username of the user
+	 * @param {String} password = Password of the user
+	 */
 	const onEmailLogin = async ({ username, password }) => {
 		setLoadingButton({ ...loadingButton, email: true });
 		await login(username, password, {
