@@ -9,6 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -22,6 +23,9 @@ import MailIcon from "@material-ui/icons/Mail";
 import List from "@material-ui/core/List";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Dashboard from "./Dashboard";
+import Plugins from "./Plugins";
+import Settings from "./Settings";
+import AppBarList from "../../list/appbar.json";
 
 const drawerWidth = 240;
 
@@ -34,14 +38,6 @@ const useStyles = makeStyles((theme) => ({
 		transition: theme.transitions.create(["width", "margin"], {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
-		}),
-	},
-	appBarShift: {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-		transition: theme.transitions.create(["width", "margin"], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
 		}),
 	},
 	menuButton: {
@@ -89,12 +85,15 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(3),
 		marginTop: theme.spacing(12),
 	},
+	routerContainer: {
+		width: "100%",
+	},
 }));
 
 const Index = () => {
 	const classes = useStyles();
 	const { enqueueSnackbar } = useSnackbar();
-	const { user, logout } = useMoralis();
+	const { user, logout, setUserData, isUserUpdating } = useMoralis();
 	const theme = useTheme();
 	const location = useLocation();
 	const [open, setOpen] = useState(false);
@@ -123,23 +122,16 @@ const Index = () => {
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
-			<AppBar
-				position="fixed"
-				className={clsx(classes.appBar, {
-					[classes.appBarShift]: open,
-				})}
-			>
+			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar>
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
-						onClick={() => setOpen(true)}
+						onClick={() => setOpen(!open)}
 						edge="start"
-						className={clsx(classes.menuButton, {
-							[classes.hide]: open,
-						})}
+						className={classes.menuButton}
 					>
-						<MenuIcon />
+						{open ? <CloseIcon /> : <MenuIcon />}
 					</IconButton>
 					<Typography variant="h6" noWrap className={classes.title}>
 						Dashboard
@@ -169,31 +161,54 @@ const Index = () => {
 				</div>
 				<Divider />
 				<List>
-					{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItem>
-					))}
+					{AppBarList.top.map((menu, index) => {
+						const { name, title } = menu;
+						return (
+							<ListItem
+								button
+								key={name}
+								onClick={() => navigate(`/${name}`)}
+								selected={location.pathname === `/${name}`}
+							>
+								<ListItemIcon>
+									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+								</ListItemIcon>
+								<ListItemText primary={title} />
+							</ListItem>
+						);
+					})}
 				</List>
 				<Divider />
 				<List>
-					{["All mail", "Trash", "Spam"].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItem>
-					))}
+					{AppBarList.bottom.map((menu, index) => {
+						const { name, title } = menu;
+						return (
+							<ListItem
+								button
+								key={name}
+								onClick={() => navigate(`/${name}`)}
+								selected={location.pathname === `/${name}`}
+							>
+								<ListItemIcon>
+									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+								</ListItemIcon>
+								<ListItemText primary={title} />
+							</ListItem>
+						);
+					})}
 				</List>
 			</Drawer>
 			<main className={classes.mainContent}>
 				<div className={classes.toolbar}>
-					<Router>
+					<Router className={classes.routerContainer}>
 						<Dashboard path="dashboard" user={user} />
+						<Plugins path="plugins" />
+						<Settings
+							path="settings"
+							user={user}
+							setUserData={setUserData}
+							loading={isUserUpdating}
+						/>
 					</Router>
 				</div>
 			</main>

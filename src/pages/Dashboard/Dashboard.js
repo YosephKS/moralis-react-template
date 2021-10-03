@@ -32,7 +32,7 @@ const Dashboard = (props) => {
 			justifyContent="center"
 		>
 			<Typography variant="h4">Hi {user.get("username")}!</Typography>
-			<Typography variant="subtitle" align="center">
+			<Typography variant="subtitle1" align="center">
 				Welcome to the Moralis React App Template
 			</Typography>
 			<Grid container spacing={2} className={classes.cardContainer}>

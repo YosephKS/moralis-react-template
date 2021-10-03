@@ -1,0 +1,18 @@
+{
+    "top": [
+        {
+            "name": "dashboard",
+            "title": "Dashboard"
+        },
+        {
+            "name": "plugins",
+            "title": "Plugins"
+        }
+    ],
+    "bottom": [
+        {
+            "name": "settings",
+            "title": "Settings"
+        }
+    ]
+}
