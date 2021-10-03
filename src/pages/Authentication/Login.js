@@ -50,7 +50,9 @@ const Login = () => {
 	});
 
 	/**
-	 * @description Authenticating User with Crypto Wallet
+	 * @description Authenticating Moralis User with Crypto Wallet
+	 * @example
+	 * const res = await onCrytoLogin('metamask');
 	 *
 	 * @param {String} type - Crypto Login Option (e.g. Metamask, WalletConnect, or Elrond)
 	 */
@@ -83,7 +85,7 @@ const Login = () => {
 	};
 
 	/**
-	 * @description Login User with traditional email and password
+	 * @description Login Moralis User with traditional email and password
 	 * @example
 	 * const res = await onEmailLogin({
 	 * 	username: "xxx",
@@ -144,9 +146,7 @@ const Login = () => {
 							fullWidth
 							className={classes.textField}
 							disabled={isAuthenticating}
-							onChange={(e) =>
-								setValues({ ...values, username: e.target.value })
-							}
+							onChange={(e) => setValues({ ...values, username: e.target.value })}
 						/>
 						<TextField
 							variant="outlined"
@@ -157,9 +157,7 @@ const Login = () => {
 							fullWidth
 							className={classes.textField}
 							disabled={isAuthenticating}
-							onChange={(e) =>
-								setValues({ ...values, password: e.target.value })
-							}
+							onChange={(e) => setValues({ ...values, password: e.target.value })}
 						/>
 						<Grid
 							container

@@ -103,9 +103,7 @@ const SignUp = () => {
 							required
 							fullWidth
 							className={classes.textField}
-							onChange={(e) =>
-								setValues({ ...values, username: e.target.value })
-							}
+							onChange={(e) => setValues({ ...values, username: e.target.value })}
 						/>
 						<TextField
 							variant="outlined"
@@ -115,9 +113,7 @@ const SignUp = () => {
 							value={values.password}
 							fullWidth
 							className={classes.textField}
-							onChange={(e) =>
-								setValues({ ...values, password: e.target.value })
-							}
+							onChange={(e) => setValues({ ...values, password: e.target.value })}
 						/>
 						<Grid
 							container

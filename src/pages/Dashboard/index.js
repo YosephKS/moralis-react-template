@@ -30,6 +30,12 @@ const Index = () => {
 	const { user, logout } = useMoralis();
 	const location = useLocation();
 
+	/**
+	 * @description Handle user logout with Moralis
+	 * @example
+	 * const res = await onLogout();
+	 *
+	 */
 	const onLogout = async () => {
 		try {
 			await logout();
