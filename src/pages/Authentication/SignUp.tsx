@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, navigate } from "@reach/router";
 import Logo from "../../assets/moralis-logo.svg";
 
 interface SignUpType {
@@ -63,6 +63,10 @@ export default function SignUp(_props: RouteComponentProps): JSX.Element {
 			email,
 			{},
 			{
+				onSuccess: () => {
+					enqueueSnackbar("Sign Up Successful.", { variant: "success" });
+					navigate("/dashboard");
+				},
 				onError: () => {
 					enqueueSnackbar("Sign Up Failed.", { variant: "error" });
 				},

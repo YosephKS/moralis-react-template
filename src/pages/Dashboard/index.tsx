@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useMoralis } from "react-moralis";
 import { useSnackbar } from "notistack";
 import {
@@ -7,25 +7,8 @@ import {
 	useLocation,
 	RouteComponentProps,
 } from "@reach/router";
-import clsx from "clsx";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import Toolbar from "@material-ui/core/Toolbar";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import MenuIcon from "@material-ui/icons/Menu";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import List from "@material-ui/core/List";
+import AppBar from "../../components/AppBar";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Dashboard from "./Dashboard";
 import Plugins from "./Plugins";
@@ -100,9 +83,7 @@ export default function Index(_props: RouteComponentProps): JSX.Element {
 	const classes = useStyles();
 	const { enqueueSnackbar } = useSnackbar();
 	const { user, logout, setUserData, isUserUpdating } = useMoralis();
-	const theme = useTheme();
 	const location = useLocation();
-	const [open, setOpen] = useState(false);
 
 	/**
 	 * @description Handle user logout with Moralis
@@ -128,82 +109,7 @@ export default function Index(_props: RouteComponentProps): JSX.Element {
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
-			<AppBar position="fixed" className={classes.appBar}>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={() => setOpen(!open)}
-						edge="start"
-						className={classes.menuButton}
-					>
-						{open ? <CloseIcon /> : <MenuIcon />}
-					</IconButton>
-					<Typography variant="h6" noWrap className={classes.title}>
-						Dashboard
-					</Typography>
-					<Button color="inherit" onClick={onLogout}>
-						Logout
-					</Button>
-				</Toolbar>
-			</AppBar>
-			<Drawer
-				variant="permanent"
-				className={clsx(classes.drawer, {
-					[classes.drawerOpen]: open,
-					[classes.drawerClose]: !open,
-				})}
-				classes={{
-					paper: clsx({
-						[classes.drawerOpen]: open,
-						[classes.drawerClose]: !open,
-					}),
-				}}
-			>
-				<div className={classes.toolbar}>
-					<IconButton onClick={() => setOpen(false)}>
-						{theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-					</IconButton>
-				</div>
-				<Divider />
-				<List>
-					{AppBarList.top.map((menu, index) => {
-						const { name, title } = menu;
-						return (
-							<ListItem
-								button
-								key={name}
-								onClick={() => navigate(`/${name}`)}
-								selected={location.pathname === `/${name}`}
-							>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={title} />
-							</ListItem>
-						);
-					})}
-				</List>
-				<Divider />
-				<List>
-					{AppBarList.bottom.map((menu, index) => {
-						const { name, title } = menu;
-						return (
-							<ListItem
-								button
-								key={name}
-								onClick={() => navigate(`/${name}`)}
-								selected={location.pathname === `/${name}`}
-							>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={title} />
-							</ListItem>
-						);
-					})}
-				</List>
-			</Drawer>
+			<AppBar menu={AppBarList} onLogout={onLogout} />
 			<main className={classes.mainContent}>
 				<div className={classes.toolbar}>
 					<Router className={classes.routerContainer}>
