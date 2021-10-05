@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import { RouteComponentProps } from "@reach/router";
+import Logo from "../../assets/moralis-logo.svg";
 
 interface SignUpType {
 	username: string;
@@ -16,6 +17,11 @@ interface SignUpType {
 }
 
 const useStyles = makeStyles((theme) => ({
+	logo: {
+		height: "70px",
+		width: "auto",
+		marginBottom: theme.spacing(1),
+	},
 	rootContainer: {
 		height: "100vh",
 		paddingLeft: "5%",
@@ -76,10 +82,12 @@ export default function SignUp(_props: RouteComponentProps): JSX.Element {
 			<Grid item className={classes.contentContainer}>
 				<Grid
 					container
+					direction="column"
 					justifyContent="center"
 					alignContent="center"
 					className={classes.titleContainer}
 				>
+					<img src={Logo} alt="Moralis Logo" className={classes.logo} />
 					<Typography variant="h3">Sign Up</Typography>
 				</Grid>
 				<Grid
@@ -135,9 +143,10 @@ export default function SignUp(_props: RouteComponentProps): JSX.Element {
 							</Grid>
 						</Grid>
 						<Button
-							variant="outlined"
+							variant="contained"
 							fullWidth
 							type="submit"
+							color="secondary"
 							className={classes.button}
 						>
 							Create New Account

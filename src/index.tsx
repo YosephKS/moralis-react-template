@@ -5,7 +5,16 @@ import { MoralisProvider } from "react-moralis";
 import { SnackbarProvider } from "notistack";
 import App from "./App";
 
-const theme = createTheme({});
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: "#21BF96",
+		},
+		secondary: {
+			main: "#041836",
+		},
+	},
+});
 
 ReactDOM.render(
 	<StrictMode>

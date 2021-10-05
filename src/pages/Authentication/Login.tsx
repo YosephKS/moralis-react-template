@@ -11,6 +11,7 @@ import { navigate, RouteComponentProps } from "@reach/router";
 import { useSnackbar } from "notistack";
 import { Web3Provider } from "react-moralis/lib/hooks/useMoralis/_useMoralisWeb3";
 import { AuthType } from "react-moralis/lib/hooks/useMoralis/_useMoralisAuth";
+import Logo from "../../assets/moralis-logo.svg";
 
 interface LoginType {
 	username: string;
@@ -18,6 +19,11 @@ interface LoginType {
 }
 
 const useStyles = makeStyles((theme) => ({
+	logo: {
+		height: "70px",
+		width: "auto",
+		marginBottom: theme.spacing(1),
+	},
 	rootContainer: {
 		height: "100vh",
 		paddingLeft: "5%",
@@ -128,10 +134,12 @@ export default function Login(_props: RouteComponentProps): JSX.Element {
 			<Grid item className={classes.contentContainer}>
 				<Grid
 					container
+					direction="column"
 					justifyContent="center"
 					alignContent="center"
 					className={classes.titleContainer}
 				>
+					<img src={Logo} alt="Moralis Logo" className={classes.logo} />
 					<Typography variant="h3">Log In</Typography>
 				</Grid>
 				<Grid
