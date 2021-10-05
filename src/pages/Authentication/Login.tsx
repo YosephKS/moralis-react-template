@@ -5,10 +5,17 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useMoralis } from "react-moralis";
-import { navigate } from "@reach/router";
+import { navigate, RouteComponentProps } from "@reach/router";
 import { useSnackbar } from "notistack";
+import { Web3Provider } from "react-moralis/lib/hooks/useMoralis/_useMoralisWeb3";
+import { AuthType } from "react-moralis/lib/hooks/useMoralis/_useMoralisAuth";
+
+interface LoginType {
+	username: string;
+	password: string;
+}
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -34,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Login = () => {
+// eslint-disable-next-line
+export default function Login(_props: RouteComponentProps): JSX.Element {
 	const classes = useStyles();
 	const { authenticate, login, isAuthenticating } = useMoralis();
 	const { enqueueSnackbar } = useSnackbar();
@@ -56,9 +64,9 @@ const Login = () => {
 	 *
 	 * @param {String} type - Crypto Login Option (e.g. Metamask, WalletConnect, or Elrond)
 	 */
-	const onCryptoLogin = async (type) => {
+	const onCryptoLogin = async (type: string) => {
 		setLoadingButton({ ...loadingButton, [type]: true });
-		const options = () => {
+		const options: () => { provider?: Web3Provider; type?: AuthType } = () => {
 			switch (type) {
 				case "metamask":
 					return {};
@@ -95,7 +103,7 @@ const Login = () => {
 	 * @param {String} username = Username of the user
 	 * @param {String} password = Password of the user
 	 */
-	const onEmailLogin = async ({ username, password }) => {
+	const onEmailLogin = async ({ username, password }: LoginType) => {
 		setLoadingButton({ ...loadingButton, email: true });
 		await login(username, password, {
 			onSuccess: () => {
@@ -217,6 +225,4 @@ const Login = () => {
 			</Grid>
 		</Grid>
 	);
-};
-
-export default Login;
+}

@@ -1,10 +1,16 @@
 import React, { useEffect } from "react";
-import { Router, navigate, useLocation } from "@reach/router";
+import {
+	Router,
+	navigate,
+	useLocation,
+	RouteComponentProps,
+} from "@reach/router";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 
-const Index = () => {
+// eslint-disable-next-line
+export default function Index(_props: RouteComponentProps): JSX.Element {
 	const location = useLocation();
 
 	useEffect(() => {
@@ -20,6 +26,4 @@ const Index = () => {
 			<ForgotPassword path="forgot-password" />
 		</Router>
 	);
-};
-
-export default Index;
+}

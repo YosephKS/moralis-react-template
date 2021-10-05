@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
 import { useSnackbar } from "notistack";
-import { Router, navigate, useLocation } from "@reach/router";
+import {
+	Router,
+	navigate,
+	useLocation,
+	RouteComponentProps,
+} from "@reach/router";
 import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
-import { makeStyles, useTheme } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
@@ -90,7 +95,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Index = () => {
+// eslint-disable-next-line
+export default function Index(_props: RouteComponentProps): JSX.Element {
 	const classes = useStyles();
 	const { enqueueSnackbar } = useSnackbar();
 	const { user, logout, setUserData, isUserUpdating } = useMoralis();
@@ -214,6 +220,4 @@ const Index = () => {
 			</main>
 		</div>
 	);
-};
-
-export default Index;
+}

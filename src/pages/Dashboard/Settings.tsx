@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { InferProps } from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
+import { RouteComponentProps } from "@reach/router";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,7 +29,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Settings = (props) => {
+export default function Settings(
+	props: InferProps<typeof Settings.propTypes> & RouteComponentProps,
+): JSX.Element {
 	const { user, setUserData, loading } = props;
 	const classes = useStyles();
 	const { enqueueSnackbar } = useSnackbar();
@@ -97,16 +100,10 @@ const Settings = (props) => {
 			</Button>
 		</Grid>
 	);
-};
+}
 
 Settings.propTypes = {
-	user: PropTypes.object.isRequired,
+	user: PropTypes.any.isRequired,
 	setUserData: PropTypes.func.isRequired,
-	loading: PropTypes.bool,
+	loading: PropTypes.bool.isRequired,
 };
-
-Settings.defaultProps = {
-	loading: false,
-};
-
-export default Settings;

@@ -10,8 +10,8 @@ const theme = createTheme({});
 ReactDOM.render(
 	<StrictMode>
 		<MoralisProvider
-			appId={process.env.REACT_APP_MORALIS_APP_ID}
-			serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
+			appId={process.env.REACT_APP_MORALIS_APP_ID ?? ""}
+			serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL ?? ""}
 		>
 			<ThemeProvider theme={theme}>
 				<SnackbarProvider

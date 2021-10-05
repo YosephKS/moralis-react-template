@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { useMoralis } from "react-moralis";
 import { useSnackbar } from "notistack";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
+import { RouteComponentProps } from "@reach/router";
+
+interface SignUpType {
+	username: string;
+	email?: string;
+	password: string;
+}
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -32,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SignUp = () => {
+// eslint-disable-next-line
+export default function SignUp(_props: RouteComponentProps): JSX.Element {
 	const classes = useStyles();
 	const { signup } = useMoralis();
 	const { enqueueSnackbar } = useSnackbar();
@@ -42,7 +50,7 @@ const SignUp = () => {
 		email: "",
 	});
 
-	const onSignUp = async ({ username, password, email }) => {
+	const onSignUp = async ({ username, password, email }: SignUpType) => {
 		await signup(
 			username,
 			password,
@@ -139,6 +147,4 @@ const SignUp = () => {
 			</Grid>
 		</Grid>
 	);
-};
-
-export default SignUp;
+}

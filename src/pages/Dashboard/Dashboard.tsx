@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { InferProps } from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
@@ -7,8 +7,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/styles";
-import { navigate } from "@reach/router";
+import { makeStyles } from "@material-ui/core/styles";
+import { navigate, RouteComponentProps } from "@reach/router";
 import CardList from "../../list/card.json";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Dashboard = (props) => {
+export default function Dashboard(
+	props: InferProps<typeof Dashboard.propTypes> & RouteComponentProps,
+): JSX.Element {
 	const { user } = props;
 	const classes = useStyles();
 
@@ -64,10 +66,8 @@ const Dashboard = (props) => {
 			</Grid>
 		</Grid>
 	);
-};
+}
 
 Dashboard.propTypes = {
-	user: PropTypes.object.isRequired,
+	user: PropTypes.any.isRequired,
 };
-
-export default Dashboard;
