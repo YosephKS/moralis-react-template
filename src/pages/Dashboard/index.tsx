@@ -14,6 +14,7 @@ import Dashboard from "./Dashboard";
 import Plugins from "./Plugins";
 import Settings from "./Settings";
 import AppBarList from "../../list/appbar.json";
+import SmartContracts from "./SmartContracts";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -80,6 +81,7 @@ export default function Index(_props: RouteComponentProps): JSX.Element {
 							setUserData={setUserData}
 							loading={isUserUpdating}
 						/>
+						<SmartContracts path="smart-contracts" />
 					</Router>
 				</div>
 			</main>

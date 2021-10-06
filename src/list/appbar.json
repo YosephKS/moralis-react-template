@@ -7,6 +7,10 @@
         {
             "name": "plugins",
             "title": "Plugins"
+        },
+        {
+            "name": "smart-contracts",
+            "title": "Smart Contracts"
         }
     ],
     "bottom": [
