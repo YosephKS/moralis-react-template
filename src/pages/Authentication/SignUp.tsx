@@ -110,6 +110,7 @@ export default function SignUp(_props: RouteComponentProps): JSX.Element {
 							variant="outlined"
 							placeholder="Email"
 							type="email"
+							label="Email"
 							value={values.email}
 							required
 							fullWidth
@@ -119,6 +120,7 @@ export default function SignUp(_props: RouteComponentProps): JSX.Element {
 						<TextField
 							variant="outlined"
 							placeholder="Username"
+							label="Username"
 							value={values.username}
 							required
 							fullWidth
@@ -128,6 +130,7 @@ export default function SignUp(_props: RouteComponentProps): JSX.Element {
 						<TextField
 							variant="outlined"
 							placeholder="Password"
+							label="Password"
 							type="password"
 							required
 							value={values.password}

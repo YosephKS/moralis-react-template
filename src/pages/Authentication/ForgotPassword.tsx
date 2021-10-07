@@ -105,6 +105,7 @@ export default function ForgotPassword(
 							variant="outlined"
 							placeholder="Email"
 							type="email"
+							label="Email"
 							value={values.email}
 							required
 							fullWidth

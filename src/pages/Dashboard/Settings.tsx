@@ -74,21 +74,25 @@ export default function Settings(
 				fullWidth
 				variant="outlined"
 				placeholder="Username"
+				label="Username"
 				className={classes.textField}
 				disabled={loading}
 				value={values.username}
 				onChange={(e) => setValues({ ...values, username: e.target.value })}
 			/>
-			<TextField
-				required
-				fullWidth
-				variant="outlined"
-				placeholder="Email"
-				className={classes.textField}
-				disabled={loading}
-				value={values.email}
-				onChange={(e) => setValues({ ...values, email: e.target.value })}
-			/>
+			{values?.email && (
+				<TextField
+					required
+					fullWidth
+					variant="outlined"
+					placeholder="Email"
+					label="Email"
+					className={classes.textField}
+					disabled={loading}
+					value={values.email}
+					onChange={(e) => setValues({ ...values, email: e.target.value })}
+				/>
+			)}
 			<Button
 				variant="outlined"
 				fullWidth
