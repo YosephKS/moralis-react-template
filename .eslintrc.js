@@ -23,5 +23,7 @@ module.exports = {
 			"warn",
 			{ vars: "all", args: "after-used", ignoreRestSiblings: false },
 		],
+		"@typescript-eslint/ban-ts-comment": "off",
+		"@typescript-eslint/no-explicit-any": "off",
 	},
 };
