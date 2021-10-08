@@ -11,13 +11,13 @@ import ForgotPassword from "./ForgotPassword";
 
 // eslint-disable-next-line
 export default function Index(_props: RouteComponentProps): JSX.Element {
-	const location = useLocation();
+	const { pathname } = useLocation();
 
 	useEffect(() => {
-		if (location.pathname === "/") {
+		if (pathname === "/") {
 			navigate("/login");
 		}
-	}, [location.pathname]);
+	}, [pathname]);
 
 	return (
 		<Router>

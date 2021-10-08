@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { RouteComponentProps } from "@reach/router";
-import { useMoralis } from "react-moralis";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -9,13 +8,14 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Clear";
 import TextField from "@material-ui/core/TextField";
-import abi from "../../abi/simpleStorage.json";
+import abi from "../../../abi/simpleStorage.json";
+import { Web3Context } from "../../../context/Web3Context";
 
-export default function SmartContracts(
+export default function SimpleStorage(
 	// eslint-disable-next-line
 	_props: RouteComponentProps,
 ): JSX.Element {
-	const { web3, isWeb3Enabled, enableWeb3 } = useMoralis();
+	const { web3, isWeb3Enabled, web3Accounts } = useContext(Web3Context);
 	const [contract, setContract] = useState({});
 	const [storage, setStorage] = useState("");
 	const [loading, setLoading] = useState(true);
@@ -43,9 +43,7 @@ export default function SmartContracts(
 	const onSetData = async (newData: string) => {
 		setLoading(true);
 		// @ts-ignore
-		const accounts = await web3.eth.getAccounts();
-		// @ts-ignore
-		await contract.methods.setData(newData).send({ from: accounts[0] });
+		await contract.methods.setData(newData).send({ from: web3Accounts[0] });
 		// Fetch the newest storage data
 		// await onGetData();
 		setLoading(false);
@@ -53,13 +51,8 @@ export default function SmartContracts(
 
 	useEffect(() => {
 		const onInitialization = async () => {
-			enableWeb3();
-
-			// 1. Set Provider to speedy nodes
+			// 1. Store contract into React State
 			// @ts-ignore
-			web3.setProvider(ethereum);
-
-			// 2. Store contract into React State
 			const res = new web3.eth.Contract(
 				// @ts-ignore
 				abi,
@@ -67,12 +60,12 @@ export default function SmartContracts(
 			);
 			setContract(res);
 
-			// 3. Set inital storage data from blockchain
+			// 2. Set inital storage data from blockchain
 			await onGetData(res);
 			setLoading(false);
 		};
 
-		if (!isWeb3Enabled) {
+		if (isWeb3Enabled) {
 			onInitialization();
 		}
 	}, []);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes, { InferProps } from "prop-types";
 import { navigate } from "@reach/router";
 import clsx from "clsx";
@@ -17,13 +17,15 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import List from "@material-ui/core/List";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { SvgIconTypeMap } from "@material-ui/core/SvgIcon/SvgIcon";
+import { Web3Context } from "../context/Web3Context";
 
 interface MenuType {
 	name: string;
 	title: string;
+	icon: OverridableComponent<SvgIconTypeMap<unknown, "svg">>;
 }
 
 const drawerWidth = 240;
@@ -95,6 +97,7 @@ export default function CustomAppBar(
 	const { menu: menuList, onLogout } = props;
 	const classes = useStyles();
 	const theme = useTheme();
+	const { web3Accounts, web3ChainId } = useContext(Web3Context);
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -113,7 +116,12 @@ export default function CustomAppBar(
 					<Typography variant="h6" noWrap className={classes.title}>
 						Dashboard
 					</Typography>
-					<Button color="inherit" onClick={onLogout}>
+
+					<Typography>
+						{web3ChainId && `${web3ChainId} Network`}
+						{web3Accounts.length > 0 && `(${web3Accounts[0]})`}
+					</Typography>
+					<Button color="inherit" variant="outlined" onClick={onLogout}>
 						Logout
 					</Button>
 				</Toolbar>
@@ -138,8 +146,8 @@ export default function CustomAppBar(
 				</div>
 				<Divider />
 				<List>
-					{menuList?.top.map((menu: MenuType, index: number) => {
-						const { name, title } = menu;
+					{menuList?.top.map((menu: MenuType) => {
+						const { name, title, icon: Icon } = menu;
 						return (
 							<ListItem
 								button
@@ -148,7 +156,7 @@ export default function CustomAppBar(
 								selected={location.pathname === `/${name}`}
 							>
 								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+									<Icon />
 								</ListItemIcon>
 								<ListItemText primary={title} />
 							</ListItem>
@@ -157,8 +165,8 @@ export default function CustomAppBar(
 				</List>
 				<Divider />
 				<List>
-					{menuList.bottom.map((menu: MenuType, index: number) => {
-						const { name, title } = menu;
+					{menuList.bottom.map((menu: MenuType) => {
+						const { name, title, icon: Icon } = menu;
 						return (
 							<ListItem
 								button
@@ -167,7 +175,7 @@ export default function CustomAppBar(
 								selected={location.pathname === `/${name}`}
 							>
 								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+									<Icon />
 								</ListItemIcon>
 								<ListItemText primary={title} />
 							</ListItem>

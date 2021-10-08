@@ -13,8 +13,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Dashboard from "./Dashboard";
 import Plugins from "./Plugins";
 import Settings from "./Settings";
-import AppBarList from "../../list/appbar.json";
+import AppBarList from "../../list/appbar";
 import SmartContracts from "./SmartContracts";
+import Web3ContextProvider from "../../context/Web3Context";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -43,7 +44,7 @@ export default function Index(_props: RouteComponentProps): JSX.Element {
 	const classes = useStyles();
 	const { enqueueSnackbar } = useSnackbar();
 	const { user, logout, setUserData, isUserUpdating } = useMoralis();
-	const location = useLocation();
+	const { pathname } = useLocation();
 
 	/**
 	 * @description Handle user logout with Moralis
@@ -61,30 +62,32 @@ export default function Index(_props: RouteComponentProps): JSX.Element {
 	};
 
 	useEffect(() => {
-		if (location.pathname === "/") {
+		if (pathname === "/") {
 			navigate("/dashboard");
 		}
-	}, [location.pathname]);
+	}, [pathname]);
 
 	return (
-		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar menu={AppBarList} onLogout={onLogout} />
-			<main className={classes.mainContent}>
-				<div className={classes.toolbar}>
-					<Router className={classes.routerContainer}>
-						<Dashboard path="dashboard" user={user} />
-						<Plugins path="plugins" />
-						<Settings
-							path="settings"
-							user={user}
-							setUserData={setUserData}
-							loading={isUserUpdating}
-						/>
-						<SmartContracts path="smart-contracts" />
-					</Router>
-				</div>
-			</main>
-		</div>
+		<Web3ContextProvider>
+			<div className={classes.root}>
+				<CssBaseline />
+				<AppBar menu={AppBarList} onLogout={onLogout} />
+				<main className={classes.mainContent}>
+					<div className={classes.toolbar}>
+						<Router className={classes.routerContainer}>
+							<Dashboard path="dashboard" user={user} />
+							<Plugins path="plugins" />
+							<Settings
+								path="settings"
+								user={user}
+								setUserData={setUserData}
+								loading={isUserUpdating}
+							/>
+							<SmartContracts path="smart-contracts/*" />
+						</Router>
+					</div>
+				</main>
+			</div>
+		</Web3ContextProvider>
 	);
 }
