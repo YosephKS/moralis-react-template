@@ -10,13 +10,16 @@ import CancelIcon from "@material-ui/icons/Clear";
 import TextField from "@material-ui/core/TextField";
 import abi from "../../../abi/simpleStorage.json";
 import { Web3Context } from "../../../context/Web3Context";
+import { useSnackbar } from "notistack";
 
 export default function SimpleStorage(
 	// eslint-disable-next-line
 	_props: RouteComponentProps,
 ): JSX.Element {
+	const { enqueueSnackbar } = useSnackbar();
 	const { web3, isWeb3Enabled, web3Accounts } = useContext(Web3Context);
 	const [contract, setContract] = useState({});
+	const [originalStorage, setOriginalStorage] = useState("");
 	const [storage, setStorage] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [editMode, setEditMode] = useState(false);
@@ -29,10 +32,27 @@ export default function SimpleStorage(
 	 * @param {Object} inst - Web3 Contract instance
 	 */
 	const onGetData = async (inst?: any) => {
-		const obj = inst ?? contract;
-		// @ts-ignore
-		const res = await obj.methods.getData().call();
-		setStorage(res);
+		try {
+			if (!loading) {
+				setLoading(true);
+			}
+
+			const obj = inst ?? contract;
+			// @ts-ignore
+			const res = await obj.methods.getData().call();
+			setStorage(res);
+			setOriginalStorage(res);
+			setLoading(false);
+
+			if (editMode) {
+				setEditMode(false);
+			}
+
+			enqueueSnackbar("Fetching Storage Successful!", { variant: "error" });
+		} catch (e) {
+			setLoading(false);
+			enqueueSnackbar("Fetching Storage Failed!", { variant: "error" });
+		}
 	};
 
 	/**
@@ -41,12 +61,17 @@ export default function SimpleStorage(
 	 * @param {String} newData -
 	 */
 	const onSetData = async (newData: string) => {
-		setLoading(true);
-		// @ts-ignore
-		await contract.methods.setData(newData).send({ from: web3Accounts[0] });
-		// Fetch the newest storage data
-		// await onGetData();
-		setLoading(false);
+		try {
+			setLoading(true);
+			// @ts-ignore
+			await contract.methods.setData(newData).send({ from: web3Accounts[0] });
+			// Fetch the newest storage data
+			await onGetData();
+			enqueueSnackbar("Storage Successfully Updated!", { variant: "success" });
+		} catch (e) {
+			setLoading(false);
+			enqueueSnackbar("Storage Update Failed!", { variant: "error" });
+		}
 	};
 
 	useEffect(() => {
@@ -93,13 +118,19 @@ export default function SimpleStorage(
 									onChange={(e) => setStorage(e.target.value)}
 								/>
 							) : (
-								<Typography variant="subtitle1">{storage}</Typography>
+								<Typography variant="subtitle1">{originalStorage}</Typography>
 							)}
 						</Grid>
 						<Grid item>
 							<IconButton
 								aria-label="editMode"
-								onClick={() => setEditMode((prev) => !prev)}
+								onClick={() => {
+									if (editMode) {
+										setStorage(originalStorage);
+									}
+
+									setEditMode((prev) => !prev);
+								}}
 							>
 								{editMode ? <CancelIcon /> : <EditIcon />}
 							</IconButton>
@@ -123,11 +154,7 @@ export default function SimpleStorage(
 						</Button>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<Button
-							variant="outlined"
-							fullWidth
-							onClick={() => onSetData("Hello Blockchain!")}
-						>
+						<Button variant="outlined" fullWidth onClick={() => onSetData(storage)}>
 							Set Data
 						</Button>
 					</Grid>

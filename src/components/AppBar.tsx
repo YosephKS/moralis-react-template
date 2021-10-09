@@ -89,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
 	routerContainer: {
 		width: "100%",
 	},
+	blockchainText: {
+		marginRight: theme.spacing(2),
+	},
 }));
 
 export default function CustomAppBar(
@@ -97,7 +100,8 @@ export default function CustomAppBar(
 	const { menu: menuList, onLogout } = props;
 	const classes = useStyles();
 	const theme = useTheme();
-	const { web3Accounts, web3ChainId } = useContext(Web3Context);
+	const { web3Accounts, web3BlockchainData } = useContext(Web3Context);
+	const { name: blockchainName } = web3BlockchainData;
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -116,10 +120,9 @@ export default function CustomAppBar(
 					<Typography variant="h6" noWrap className={classes.title}>
 						Dashboard
 					</Typography>
-
-					<Typography>
-						{web3ChainId && `${web3ChainId} Network`}
-						{web3Accounts.length > 0 && `(${web3Accounts[0]})`}
+					<Typography className={classes.blockchainText}>
+						{blockchainName ? blockchainName : ""}
+						{web3Accounts.length > 0 && ` (${web3Accounts[0]})`}
 					</Typography>
 					<Button color="inherit" variant="outlined" onClick={onLogout}>
 						Logout
