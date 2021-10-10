@@ -85,7 +85,7 @@ export default function ForgotPassword(
 					className={classes.titleContainer}
 				>
 					<img src={Logo} alt="Moralis Logo" className={classes.logo} />
-					<Typography variant="h3">Sign Up</Typography>
+					<Typography variant="h3">Forgot Password</Typography>
 				</Grid>
 				<Grid
 					container
@@ -101,7 +101,6 @@ export default function ForgotPassword(
 					>
 						<TextField
 							variant="outlined"
-							placeholder="Email"
 							type="email"
 							label="Email"
 							value={values.email}

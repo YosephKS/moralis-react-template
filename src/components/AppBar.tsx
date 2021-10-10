@@ -18,14 +18,23 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import StarBorder from "@material-ui/icons/StarBorder";
+import Collapse from "@material-ui/core/Collapse";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import { SvgIconTypeMap } from "@material-ui/core/SvgIcon/SvgIcon";
 import { Web3Context } from "../context/Web3Context";
 
 interface MenuType {
 	name: string;
+	link: string;
 	title: string;
 	icon: OverridableComponent<SvgIconTypeMap<unknown, "svg">>;
+	submenu?: Array<{
+		name: string;
+		title: string;
+		icon: OverridableComponent<SvgIconTypeMap<unknown, "svg">>;
+	}>;
 }
 
 const drawerWidth = 240;
@@ -92,6 +101,9 @@ const useStyles = makeStyles((theme) => ({
 	blockchainText: {
 		marginRight: theme.spacing(2),
 	},
+	nested: {
+		paddingLeft: theme.spacing(4),
+	},
 }));
 
 export default function CustomAppBar(
@@ -102,7 +114,8 @@ export default function CustomAppBar(
 	const theme = useTheme();
 	const { web3Accounts, web3BlockchainData } = useContext(Web3Context);
 	const { name: blockchainName } = web3BlockchainData;
-	const [open, setOpen] = useState(false);
+	const [openAppbar, setOpenAppbar] = useState(false);
+	// const [openDrawer, setOpenDrawer] = useState({});
 
 	return (
 		<>
@@ -111,11 +124,11 @@ export default function CustomAppBar(
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
-						onClick={() => setOpen(!open)}
+						onClick={() => setOpenAppbar(!openAppbar)}
 						edge="start"
 						className={classes.menuButton}
 					>
-						{open ? <CloseIcon /> : <MenuIcon />}
+						{openAppbar ? <CloseIcon /> : <MenuIcon />}
 					</IconButton>
 					<Typography variant="h6" noWrap className={classes.title}>
 						Dashboard
@@ -132,37 +145,53 @@ export default function CustomAppBar(
 			<Drawer
 				variant="permanent"
 				className={clsx(classes.drawer, {
-					[classes.drawerOpen]: open,
-					[classes.drawerClose]: !open,
+					[classes.drawerOpen]: openAppbar,
+					[classes.drawerClose]: !openAppbar,
 				})}
 				classes={{
 					paper: clsx({
-						[classes.drawerOpen]: open,
-						[classes.drawerClose]: !open,
+						[classes.drawerOpen]: openAppbar,
+						[classes.drawerClose]: !openAppbar,
 					}),
 				}}
 			>
 				<div className={classes.toolbar}>
-					<IconButton onClick={() => setOpen(false)}>
+					<IconButton onClick={() => setOpenAppbar(false)}>
 						{theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 					</IconButton>
 				</div>
 				<Divider />
 				<List>
 					{menuList?.top.map((menu: MenuType) => {
-						const { name, title, icon: Icon } = menu;
+						const { name, title, icon: Icon, link, submenu } = menu;
+						const isSubmenuExist = submenu?.length > 0;
 						return (
-							<ListItem
-								button
-								key={name}
-								onClick={() => navigate(`/${name}`)}
-								selected={location.pathname === `/${name}`}
-							>
-								<ListItemIcon>
-									<Icon />
-								</ListItemIcon>
-								<ListItemText primary={title} />
-							</ListItem>
+							<>
+								<ListItem
+									button
+									key={name}
+									onClick={() => navigate(`/${link}`)}
+									selected={location.pathname === `/${link}`}
+								>
+									<ListItemIcon>
+										<Icon />
+									</ListItemIcon>
+									<ListItemText primary={title} />
+									{isSubmenuExist && <ExpandLess />}
+								</ListItem>
+								{isSubmenuExist && (
+									<Collapse in={false} timeout="auto" unmountOnExit>
+										<List component="div" disablePadding>
+											<ListItem button className={classes.nested}>
+												<ListItemIcon>
+													<StarBorder />
+												</ListItemIcon>
+												<ListItemText primary="Starred" />
+											</ListItem>
+										</List>
+									</Collapse>
+								)}
+							</>
 						);
 					})}
 				</List>

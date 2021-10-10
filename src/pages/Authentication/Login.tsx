@@ -156,7 +156,6 @@ export default function Login(_props: RouteComponentProps): JSX.Element {
 					>
 						<TextField
 							variant="outlined"
-							placeholder="Username"
 							label="Username"
 							value={values.username}
 							required
@@ -167,7 +166,6 @@ export default function Login(_props: RouteComponentProps): JSX.Element {
 						/>
 						<TextField
 							variant="outlined"
-							placeholder="Password"
 							label="Password"
 							type="password"
 							required

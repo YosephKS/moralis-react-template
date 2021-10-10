@@ -73,7 +73,6 @@ export default function Settings(
 				required
 				fullWidth
 				variant="outlined"
-				placeholder="Username"
 				label="Username"
 				className={classes.textField}
 				disabled={loading}
@@ -85,7 +84,6 @@ export default function Settings(
 					required
 					fullWidth
 					variant="outlined"
-					placeholder="Email"
 					label="Email"
 					className={classes.textField}
 					disabled={loading}

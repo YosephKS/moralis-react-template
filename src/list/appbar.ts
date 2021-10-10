@@ -7,16 +7,27 @@ const AppBarList = {
 	top: [
 		{
 			name: "dashboard",
+			link: "dashboard",
 			title: "Dashboard",
 			icon: DashboardIcon,
 		},
 		{
-			name: "smart-contracts",
+			name: "smartContracts",
+			link: "smart-contracts",
 			title: "Smart Contracts",
 			icon: SmartContractsIcon,
+			submenu: [
+				{
+					name: "simpleStorage",
+					link: "simple-storage",
+					title: "Simple Storage",
+					icon: SmartContractsIcon,
+				},
+			],
 		},
 		{
 			name: "plugins",
+			link: "plugins",
 			title: "Plugins",
 			icon: PluginsIcon,
 		},
@@ -24,6 +35,7 @@ const AppBarList = {
 	bottom: [
 		{
 			name: "settings",
+			link: "settings",
 			title: "Settings",
 			icon: SettingsIcon,
 		},

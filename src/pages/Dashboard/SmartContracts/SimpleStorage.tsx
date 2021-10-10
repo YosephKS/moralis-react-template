@@ -48,7 +48,7 @@ export default function SimpleStorage(
 				setEditMode(false);
 			}
 
-			enqueueSnackbar("Fetching Storage Successful!", { variant: "error" });
+			enqueueSnackbar("Fetching Storage Successful!", { variant: "success" });
 		} catch (e) {
 			setLoading(false);
 			enqueueSnackbar("Fetching Storage Failed!", { variant: "error" });
@@ -109,7 +109,6 @@ export default function SimpleStorage(
 							{editMode ? (
 								<TextField
 									variant="outlined"
-									placeholder="Storage"
 									label="Storage"
 									type="text"
 									value={storage}
