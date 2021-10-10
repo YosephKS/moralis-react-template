@@ -2,6 +2,8 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PluginsIcon from "@material-ui/icons/Extension";
 import SmartContractsIcon from "@material-ui/icons/Code";
+import SimpleStorageIcon from "@material-ui/icons/Storage";
+import DocumentsIcon from "@material-ui/icons/InsertDriveFile";
 
 const AppBarList = {
 	top: [
@@ -21,7 +23,7 @@ const AppBarList = {
 					name: "simpleStorage",
 					link: "simple-storage",
 					title: "Simple Storage",
-					icon: SmartContractsIcon,
+					icon: SimpleStorageIcon,
 				},
 			],
 		},
@@ -30,6 +32,12 @@ const AppBarList = {
 			link: "plugins",
 			title: "Plugins",
 			icon: PluginsIcon,
+		},
+		{
+			name: "documents",
+			link: "documents",
+			title: "Documents",
+			icon: DocumentsIcon,
 		},
 	],
 	bottom: [

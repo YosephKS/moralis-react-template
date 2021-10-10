@@ -15,6 +15,7 @@ import Plugins from "./Plugins";
 import Settings from "./Settings";
 import AppBarList from "../../list/appbar";
 import SmartContracts from "./SmartContracts";
+import Documents from "./Documents";
 import Web3ContextProvider from "../../context/Web3Context";
 
 const useStyles = makeStyles((theme) => ({
@@ -84,6 +85,7 @@ export default function Index(_props: RouteComponentProps): JSX.Element {
 								loading={isUserUpdating}
 							/>
 							<SmartContracts path="smart-contracts/*" />
+							<Documents path="documents" />
 						</Router>
 					</div>
 				</main>

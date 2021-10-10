@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PropTypes, { InferProps } from "prop-types";
-import { navigate } from "@reach/router";
+import { navigate, useLocation } from "@reach/router";
 import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
@@ -18,12 +18,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import StarBorder from "@material-ui/icons/StarBorder";
 import Collapse from "@material-ui/core/Collapse";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import { SvgIconTypeMap } from "@material-ui/core/SvgIcon/SvgIcon";
-import { Web3Context } from "../context/Web3Context";
+import { Web3Context } from "../../context/Web3Context";
+import SubmenuArrow from "./SubmenuArrow";
 
 interface MenuType {
 	name: string;
@@ -34,6 +33,7 @@ interface MenuType {
 		name: string;
 		title: string;
 		icon: OverridableComponent<SvgIconTypeMap<unknown, "svg">>;
+		link: string;
 	}>;
 }
 
@@ -112,10 +112,46 @@ export default function CustomAppBar(
 	const { menu: menuList, onLogout } = props;
 	const classes = useStyles();
 	const theme = useTheme();
+	const { pathname } = useLocation();
 	const { web3Accounts, web3BlockchainData } = useContext(Web3Context);
 	const { name: blockchainName } = web3BlockchainData;
+	const initialOpenDrawerValue = () => {
+		const val = {};
+		Object.keys(menuList).map((menuKey: string) => {
+			menuList[menuKey].map((menuDetails) => {
+				const { name, submenu } = menuDetails;
+				if (submenu?.length > 0) {
+					val[name] = false;
+				}
+			});
+		});
+
+		return val;
+	};
 	const [openAppbar, setOpenAppbar] = useState(false);
-	// const [openDrawer, setOpenDrawer] = useState({});
+	const [openDrawer, setOpenDrawer] = useState(initialOpenDrawerValue());
+
+	const handleSubmenu = ({ name, link, isSubmenuExist, isSelected }) => {
+		if (openAppbar) {
+			if (isSubmenuExist) {
+				setOpenDrawer({
+					...initialOpenDrawerValue(),
+					[name]: isSelected ? !openDrawer[name] : true,
+				});
+			} else if (!isSelected) {
+				setOpenDrawer({ ...initialOpenDrawerValue() });
+			}
+		}
+
+		navigate(`/${link}`);
+	};
+
+	useEffect(() => {
+		// Close Drawer Submenu when AppBar closed
+		if (!openAppbar) {
+			setOpenDrawer({ ...initialOpenDrawerValue() });
+		}
+	}, [openAppbar]);
 
 	return (
 		<>
@@ -165,30 +201,51 @@ export default function CustomAppBar(
 					{menuList?.top.map((menu: MenuType) => {
 						const { name, title, icon: Icon, link, submenu } = menu;
 						const isSubmenuExist = submenu?.length > 0;
+						const isSelected =
+							(openAppbar && pathname === `/${link}`) ||
+							(!openAppbar && pathname.includes(`/${link}`));
+
 						return (
 							<>
 								<ListItem
 									button
 									key={name}
-									onClick={() => navigate(`/${link}`)}
-									selected={location.pathname === `/${link}`}
+									onClick={() =>
+										handleSubmenu({ name, link, isSubmenuExist, isSelected })
+									}
+									selected={isSelected}
 								>
 									<ListItemIcon>
 										<Icon />
 									</ListItemIcon>
 									<ListItemText primary={title} />
-									{isSubmenuExist && <ExpandLess />}
+									{isSubmenuExist && <SubmenuArrow open={openDrawer[name]} />}
 								</ListItem>
 								{isSubmenuExist && (
-									<Collapse in={false} timeout="auto" unmountOnExit>
-										<List component="div" disablePadding>
-											<ListItem button className={classes.nested}>
-												<ListItemIcon>
-													<StarBorder />
-												</ListItemIcon>
-												<ListItemText primary="Starred" />
-											</ListItem>
-										</List>
+									<Collapse in={openDrawer[name]} timeout="auto" unmountOnExit>
+										{submenu.map((sm) => {
+											const {
+												name: smName,
+												title: smTitle,
+												icon: SMIcon,
+												link: smLink,
+											} = sm;
+											return (
+												<List component="div" key={smName} disablePadding>
+													<ListItem
+														button
+														onClick={() => navigate(`/${link}/${smLink}`)}
+														selected={pathname === `/${link}/${smLink}`}
+														className={classes.nested}
+													>
+														<ListItemIcon>
+															<SMIcon />
+														</ListItemIcon>
+														<ListItemText primary={smTitle} />
+													</ListItem>
+												</List>
+											);
+										})}
 									</Collapse>
 								)}
 							</>
