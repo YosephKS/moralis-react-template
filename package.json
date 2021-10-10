@@ -38,7 +38,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
     "husky": "^7.0.2",
-    "prettier": "2.4.1"
+    "prettier": "^2.4.1"
   },
   "scripts": {
     "prepare": "husky install",
@@ -47,6 +47,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.tsx",
+    "lint:fix": "yarn lint --fix",
+    "prettier": "npx prettier -c src",
+    "prettier:fix": "yarn prettier -w",
+    "format": "yarn prettier:fix && yarn lint:fix",
     "deploy": "netlify deploy --prod"
   },
   "browserslist": [
