@@ -131,6 +131,14 @@ export default function CustomAppBar(
 	const [openAppbar, setOpenAppbar] = useState(false);
 	const [openDrawer, setOpenDrawer] = useState(initialOpenDrawerValue());
 
+	/**
+	 * @description Handle Submenu Collapse/Expansion when Submenu is clicked
+	 *
+	 * @param {String} name - The name of the menu
+	 * @param {String} link - The link of the menu
+	 * @param {Boolean} isSubmenuExist - Determine whether submenu exist on the menu
+	 * @param {Boolean} isSelected - Determines whether the submenu is selected or not
+	 */
 	const handleSubmenu = ({ name, link, isSubmenuExist, isSelected }) => {
 		if (openAppbar) {
 			if (isSubmenuExist) {
