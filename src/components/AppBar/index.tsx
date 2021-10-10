@@ -118,7 +118,7 @@ export default function CustomAppBar(
 	const initialOpenDrawerValue = () => {
 		const val = {};
 		Object.keys(menuList).map((menuKey: string) => {
-			menuList[menuKey].map((menuDetails) => {
+			menuList[menuKey].map((menuDetails: MenuType) => {
 				const { name, submenu } = menuDetails;
 				if (submenu?.length > 0) {
 					val[name] = false;
@@ -150,6 +150,8 @@ export default function CustomAppBar(
 		// Close Drawer Submenu when AppBar closed
 		if (!openAppbar) {
 			setOpenDrawer({ ...initialOpenDrawerValue() });
+		} else {
+			// Open the Drawer Submenu on path
 		}
 	}, [openAppbar]);
 
