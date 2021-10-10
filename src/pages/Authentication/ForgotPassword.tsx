@@ -55,18 +55,16 @@ export default function ForgotPassword(
 	});
 
 	const onForgotPassword = async ({ email }: ForgotPasswordType) => {
-		await Moralis.User.requestPasswordReset(email, {
-			success: () => {
-				enqueueSnackbar("Sending Reset Password Email Successful.", {
-					variant: "success",
-				});
-			},
-			error: () => {
-				enqueueSnackbar("Sending Reset Password Email Failed.", {
-					variant: "error",
-				});
-			},
-		});
+		try {
+			await Moralis.User.requestPasswordReset(email);
+			enqueueSnackbar("Sending Reset Password Email Successful.", {
+				variant: "success",
+			});
+		} catch (e) {
+			enqueueSnackbar("Sending Reset Password Email Failed.", {
+				variant: "error",
+			});
+		}
 	};
 
 	return (
