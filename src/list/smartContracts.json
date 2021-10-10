@@ -1,8 +1,8 @@
 [
-    {
-        "name": "simpleStorage",
-        "title": "Simple Storage",
-        "description": "Simple Storage Smart Contract to store data in the blockchain.",
-        "link": "smart-contracts/simple-storage"
-    }
+	{
+		"name": "simpleStorage",
+		"title": "Simple Storage",
+		"description": "Simple Storage Smart Contract to store data in the blockchain.",
+		"link": "smart-contracts/simple-storage"
+	}
 ]
